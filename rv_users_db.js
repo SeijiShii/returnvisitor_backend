@@ -111,7 +111,19 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
           console.log(STATUS_SHORT_USER_NAME);
           callback(result);
         } else {
-          callback(null);
+          // パスワードが8文字以下か
+          if (password.length < 8) {
+
+            var result = {
+              user:{}
+            };
+            result.user.user_name = user_name;
+            result.state = STATUS_SHORT_PASSWORD;
+            console.log(STATUS_SHORT_PASSWORD);
+            callback(result);
+          } else {
+            callback(null);            
+          }
         }
       }
   });
