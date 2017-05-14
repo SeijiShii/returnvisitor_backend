@@ -81,6 +81,40 @@ var doLogin = function(req, res) {
 
 var doCreateUser = function(req, res) {
 
+  // bodyをゲット
+  var body = [];
+  req.on('data', function(chunk){
+    body.push(chunk);
+  }).on('end', function(){
+    body = Buffer.concat(body).toString();
+    var user = JSON.parse(body);
+
+    usersDB.createUser(user.user_name, user.password, function(result) {
+
+      switch (result.state) {
+        case 'STATUS_400_DUPLICATE_USER_NAME':
+          res.writeHead(400, {'Content-type': 'text/plain'});
+          break;
+
+        case 'STATUS_400_TOO_SHORT_USER_NAME':
+          res.writeHead(400, {'Content-type': 'text/plain'});
+          break;
+
+        case 'STATUS_400_SHORT_PASSWORD':
+          res.writeHead(400, {'Content-type': 'text/plain'});
+          break;
+
+        case 'STATUS_201_CREATED':
+          res.writeHead(201, {'Content-type': 'text/plain'});
+          break;
+
+        default:
+      }
+      var json = JSON.stringify(result);
+      console.log(json);
+      res.end(json);
+    });
+  });
 }
 
 var doSyncData = function(req, res) {
