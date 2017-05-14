@@ -3,8 +3,8 @@ var url = require('url');
 var port = 1337;
 
 var dbclient = require('./dbclient');
-var rvUsersDb = require('./rv_users_db');
-var users = new rvUsersDb(dbclient);
+var RVUsersDB = require('./rv_users_db');
+var usersDB = new RVUsersDB(dbclient);
 
 var server = http.createServer(function(req, res){
 
@@ -56,8 +56,25 @@ var doLogin = function(req, res) {
     body = Buffer.concat(body).toString();
     var user = JSON.parse(body);
 
-    rvUsersDb.login(user.user_name, user.password, function(result){
+    usersDB.login(user.user_name, user.password, function(result){
 
+      switch (result.state) {
+        case 'STATUS_202_AUTHENTICATED':
+          res.writeHead(202, {'Content-type': 'text/plain'});
+          break;
+
+        case 'STATUS_401_UNAUTHORIZED':
+          res.writeHead(401, {'Content-type': 'text/plain'});
+          break;
+
+        case 'STATUS_404_NOT_FOUND':
+        default:
+          res.writeHead(404, {'Content-type': 'text/plain'});
+          break;
+      }
+      var json = JSON.stringify(result);
+      console.log(json);
+      res.end(json);
     });
   });
 }

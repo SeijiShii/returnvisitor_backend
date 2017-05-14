@@ -35,6 +35,7 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
         var result = {};
         result.user = rows[0];
         result.state = STATUS_AUTHENTICATED;
+        console.log(STATUS_AUTHENTICATED);
         callback(result);
       } else {
         // 1件以外の時
@@ -45,13 +46,28 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
             }
             result.user.user_name = user_name;
             result.state = STATUS_UNAUTHORIZED;
+            console.log(STATUS_UNAUTHORIZED);
+            callback(result);
           } else {
-
+            var result = {
+              user:{}
+            }
+            result.user.user_name = user_name;
+            result.state = STATUS_NOT_FOUND;
+            console.log(STATUS_NOT_FOUND);
+            callback(result);
           }
         });
       }
     } else {
-
+      // rowがnullになるケースがあるかどうかは分からないけれど。
+      var result = {
+        user:{}
+      }
+      result.user.user_name = user_name;
+      result.state = STATUS_NOT_FOUND;
+      console.log(STATUS_NOT_FOUND);
+      callback(result);
     }
 
   });
