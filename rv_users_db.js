@@ -100,7 +100,19 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
         console.log(STATUS_DUPLICATE_USER_NAME);
         callback(result);
       } else {
+        // ユーザ名が8文字以下か
+        if (user_name.length < 8) {
 
+          var result = {
+            user:{}
+          };
+          result.user.user_name = user_name;
+          result.state = STATUS_SHORT_USER_NAME;
+          console.log(STATUS_SHORT_USER_NAME);
+          callback(result);
+        } else {
+          callback(null);
+        }
       }
   });
 
@@ -116,8 +128,10 @@ RVUsersDB.prototype.existsUser = function(user_name, callback) {
   _client.query(queryUserName, function(err, rows) {
     if (rows) {
       if (rows.info.numRows >= 1) {
+        console.log(user_name + ': Exists.');
         callback(true);
       } else {
+        console.log(user_name + ': Does not Exist.');
         callback(false);
       }
     } else {
