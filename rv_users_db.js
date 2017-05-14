@@ -122,7 +122,28 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
             console.log(STATUS_SHORT_PASSWORD);
             callback(result);
           } else {
-            callback(null);            
+
+            // generate user_id
+            var date = new Date();
+            var dateString = date.getTime().toString();
+            var user_id = 'user_id_' + user_name + '_' + dateString;
+            console.log('user_id: ' + user_id);
+
+            // 新規作成クエリ
+            var createUserQuery = 'INSERT INTO returnvisitor_db.users (user_name, password, user_id, updated_at) VALUES ("' + user_name + '", "' + password + '", "' + user_id + '",' + new Date().getTime().toString() + ' );';
+            console.log(createUserQuery);
+            _client.query(createUserQuery, function(err, rows) {
+              if (rows) {
+                if (rows.info.affectedRows == 1) {
+                  RVUsersDB.prototype.login(user_name, password, function(result){
+                    result.state = STATUS_CREATED;
+                    console.log(STATUS_CREATED);
+                    callback(result);
+                  });
+                }
+              }
+            });
+            _client.end();
           }
         }
       }
