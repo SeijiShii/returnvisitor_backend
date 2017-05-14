@@ -74,7 +74,35 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
   _client.end();
 }
 
-RVUsersDB.prototype.createAccount = function(user_name, password, callback) {
+RVUsersDB.prototype.createUser = function(user_name, password, callback) {
+
+  // callback(result {user{user_name, password}, state})
+  // アカウント新規作成の流れ
+  //    if ユーザ名が存在するか
+  //      400 BAD REAUEST DUPLICATE USER
+  //    else
+  //      if ユーザ名は8文字以下か
+  //        400 BAD REQUEST SHORT user_name
+  //      else
+  //        if パスワードは8文字以下か
+  //          400 BAD REQUEST SHORT PASSWORD
+  //        else
+  //          新規作成　201 CREATED
+  RVUsersDB.prototype.existsUser(user_name, function(exists) {
+
+      if (exists) {
+
+        var result = {
+          user:{}
+        };
+        result.user.user_name = user_name;
+        result.state = STATUS_DUPLICATE_USER_NAME;
+        console.log(STATUS_DUPLICATE_USER_NAME);
+        callback(result);
+      } else {
+
+      }
+  });
 
 }
 
@@ -96,6 +124,7 @@ RVUsersDB.prototype.existsUser = function(user_name, callback) {
       callback(false);
     }
   });
+  _client.end();
 }
 
 module.exports = RVUsersDB;

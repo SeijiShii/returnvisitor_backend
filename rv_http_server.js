@@ -28,8 +28,8 @@ var server = http.createServer(function(req, res){
         doLogin(req, res);
         break;
 
-      case 'create_account':
-        doCreateAccount(req, res);
+      case 'create_user':
+        doCreateUser(req, res);
         break;
 
       case 'sync_data':
@@ -79,7 +79,7 @@ var doLogin = function(req, res) {
   });
 }
 
-var doCreateAccount = function(req, res) {
+var doCreateUser = function(req, res) {
 
 }
 
