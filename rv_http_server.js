@@ -48,6 +48,18 @@ var server = http.createServer(function(req, res){
 
 var doLogin = function(req, res) {
 
+  // bodyをゲット
+  var body = [];
+  req.on('data', function(chunk){
+    body.push(chunk);
+  }).on('end', function(){
+    body = Buffer.concat(body).toString();
+    var user = JSON.parse(body);
+
+    rvUsersDb.login(user.user_name, user.password, function(result){
+
+    });
+  });
 }
 
 var doCreateAccount = function(req, res) {
