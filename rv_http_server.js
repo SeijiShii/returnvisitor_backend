@@ -3,8 +3,8 @@ var url = require('url');
 var port = 1337;
 
 var dbclient = require('./dbclient');
-var ReturnVisitorUsers = require('./returnvisitor_users');
-var users = new ReturnVisitorUsers(dbclient);
+var rvUsersDb = require('./rv_users_db');
+var users = new rvUsersDb(dbclient);
 
 var server = http.createServer(function(req, res){
 
@@ -25,15 +25,15 @@ var server = http.createServer(function(req, res){
   if (req.method == 'POST') {
     switch (pathArray.shift()) {
       case 'login':
-
+        doLogin(req, res);
         break;
 
       case 'create_account':
-
+        doCreateAccount(req, res);
         break;
 
       case 'sync_data':
-
+        doSyncData(req, res);
         break;
 
       default:
@@ -46,6 +46,17 @@ var server = http.createServer(function(req, res){
   }
 });
 
+var doLogin = function(req, res) {
+
+}
+
+var doCreateAccount = function(req, res) {
+
+}
+
+var doSyncData = function(req, res) {
+
+}
 // var doGet = function(req, res, pathArray, query) {
 //   // console.log('doGet called');
 //
