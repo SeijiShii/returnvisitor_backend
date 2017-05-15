@@ -1,11 +1,11 @@
-var STATUS_OK = 'STATUS_200_OK'
-var STATUS_CREATED = "STATUS_201_CREATED";
-var STATUS_AUTHENTICATED = 'STATUS_202_AUTHENTICATED';
-var STATUS_DUPLICATE_USER_NAME = 'STATUS_400_DUPLICATE_USER_NAME';
-var STATUS_SHORT_USER_NAME = "STATUS_400_SHORT_USER_NAME";
-var STATUS_SHORT_PASSWORD = "STATUS_400_SHORT_PASSWORD";
-var STATUS_UNAUTHORIZED = "STATUS_401_UNAUTHORIZED";
-var STATUS_NOT_FOUND = 'STATUS_404_NOT_FOUND';
+var STATUS_200_OK                   = 'STATUS_200_OK'
+var STATUS_201_CREATED              = "STATUS_201_CREATED";
+var STATUS_202_AUTHENTICATED        = 'STATUS_202_AUTHENTICATED';
+var STATUS_400_DUPLICATE_USER_NAME  = 'STATUS_400_DUPLICATE_USER_NAME';
+var STATUS_400_SHORT_USER_NAME      = "STATUS_400_SHORT_USER_NAME";
+var STATUS_400_SHORT_PASSWORD       = "STATUS_400_SHORT_PASSWORD";
+var STATUS_401_UNAUTHORIZED         = "STATUS_401_UNAUTHORIZED";
+var STATUS_404_NOT_FOUND            = 'STATUS_404_NOT_FOUND';
 
 var _client;
 
@@ -34,8 +34,8 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
         // データが1件だけの時のみデータを返す。
         var result = {};
         result.user = rows[0];
-        result.state = STATUS_AUTHENTICATED;
-        console.log(STATUS_AUTHENTICATED);
+        result.state = STATUS_202_AUTHENTICATED;
+        console.log(STATUS_202_AUTHENTICATED);
         callback(result);
       } else {
         // 1件以外の時
@@ -45,16 +45,16 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
               user:{}
             }
             result.user.user_name = user_name;
-            result.state = STATUS_UNAUTHORIZED;
-            console.log(STATUS_UNAUTHORIZED);
+            result.state = STATUS_401_UNAUTHORIZED;
+            console.log(STATUS_401_UNAUTHORIZED);
             callback(result);
           } else {
             var result = {
               user:{}
             }
             result.user.user_name = user_name;
-            result.state = STATUS_NOT_FOUND;
-            console.log(STATUS_NOT_FOUND);
+            result.state = STATUS_404_NOT_FOUND;
+            console.log(STATUS_404_NOT_FOUND);
             callback(result);
           }
         });
@@ -65,8 +65,8 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
         user:{}
       }
       result.user.user_name = user_name;
-      result.state = STATUS_NOT_FOUND;
-      console.log(STATUS_NOT_FOUND);
+      result.state = STATUS_404_NOT_FOUND;
+      console.log(STATUS_404_NOT_FOUND);
       callback(result);
     }
 
@@ -96,8 +96,8 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
           user:{}
         };
         result.user.user_name = user_name;
-        result.state = STATUS_DUPLICATE_USER_NAME;
-        console.log(STATUS_DUPLICATE_USER_NAME);
+        result.state = STATUS_400_DUPLICATE_USER_NAME;
+        console.log(STATUS_400_DUPLICATE_USER_NAME);
         callback(result);
       } else {
         // ユーザ名が8文字以下か
@@ -107,8 +107,8 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
             user:{}
           };
           result.user.user_name = user_name;
-          result.state = STATUS_SHORT_USER_NAME;
-          console.log(STATUS_SHORT_USER_NAME);
+          result.state = STATUS_400_SHORT_USER_NAME;
+          console.log(STATUS_400_SHORT_USER_NAME);
           callback(result);
         } else {
           // パスワードが8文字以下か
@@ -118,8 +118,8 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
               user:{}
             };
             result.user.user_name = user_name;
-            result.state = STATUS_SHORT_PASSWORD;
-            console.log(STATUS_SHORT_PASSWORD);
+            result.state = STATUS_400_SHORT_PASSWORD;
+            console.log(STATUS_400_SHORT_PASSWORD);
             callback(result);
           } else {
 
@@ -136,8 +136,8 @@ RVUsersDB.prototype.createUser = function(user_name, password, callback) {
               if (rows) {
                 if (rows.info.affectedRows == 1) {
                   RVUsersDB.prototype.login(user_name, password, function(result){
-                    result.state = STATUS_CREATED;
-                    console.log(STATUS_CREATED);
+                    result.state = STATUS_201_CREATED;
+                    console.log(STATUS_201_CREATED);
                     callback(result);
                   });
                 }
