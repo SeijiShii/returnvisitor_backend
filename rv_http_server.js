@@ -22,7 +22,7 @@ var server = http.createServer(function(req, res){
 
   // メソッドはつねにPOST
 
-  if (req.method == 'POST') {
+  if (req.method === 'POST') {
     switch (pathArray.shift()) {
       case 'login':
         doLogin(req, res);
