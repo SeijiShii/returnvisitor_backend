@@ -4,6 +4,7 @@ var STATE_SUCCESSFULLY_INSERT_DATA = "STATE_SUCCESSFULLY_INSERT_DATA";
 var STATE_SUCCESSFULLY_UPDATE_DATA = "STATE_SUCCESSFULLY_UPDATE_DATA";
 var STATE_FAILURE_INSERT_DATA = "STATE_FAILURE_INSERT_DATA";
 
+
 function RVDataDB(client) {
   _client = client;
 }
@@ -34,7 +35,7 @@ RVDataDB.prototype.changeSingleData = (user_id, data, callback) => {
 
 RVDataDB.prototype.insertSingData = (user_id, data, callback) => {
 
-  console.log('insertSingData called.');
+  // console.log('insertSingData called.');
 
   var insertQuery = 'INSERT INTO returnvisitor_db.rv_data (user_id, data_id, class_name, updated_at, json_data) VALUES ("' + user_id + '", "' + data.id + '", "' + data.class_name + '", "' + data.updated_at + '","' + data.data + '" );';
   // console.log( 'insertQuery: ' + insertQuery);
