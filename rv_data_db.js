@@ -69,10 +69,43 @@ RVDataDB.prototype.saveDataArray = (user_id, array, callback) => {
   for ( var i = 0 ; i < array.length ; i++ ) {
     RVDataDB.prototype.saveSingleData(user_id, array[i], (result) => {});
   }
+
+  for ( var i = 0 ; i < array.length ; i++ ) {
+    if (array[i].class_name === 'DeletedData') {
+      var deletedData = array[i];
+      var dataString = deletedData.data;
+      console.log('dataString: ' + dataString);
+      dataString = dataString.replace(/\*double_quotes\*/g, '"');
+      console.log('dataString (replaced): ' + dataString);
+      var parsedData = JSON.parse(dataString);
+
+      RVDataDB.prototype.deleteSingleData(user_id, parsedData.data_id, () => {})
+    }
+  }
+
   var result = {}
   // console.dir(result);
   callback(result);
 
+}
+
+RVDataDB.prototype.deleteSingleData = (user_id, data_id, callback) => {
+  var deleteDataQuery = 'DELETE FROM returnvisitor_db.rv_data WHERE user_id = "' + user_id + '" AND data_id = "' + data_id + '";';
+  console.log('deleteDataQuery: ' + deleteDataQuery);
+  _client.query(deleteDataQuery, (err, rows) =>{
+    console.log('err:');
+    console.dir(err);
+    console.log('rows:');
+    console.dir(rows);
+    if (rows) {
+      if (rows.info.affectedRows >= 1) {
+
+      }
+    } else {
+
+    }
+  });
+  _client.end();
 }
 
 RVDataDB.prototype.loadDataLaterThanTime = (user_id, time, callback) => {
