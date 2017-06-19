@@ -101,7 +101,7 @@ RVDataDB.prototype.deleteSingleData = (user_id, data_id, callback) => {
       if (rows.info.affectedRows >= 1) {
 
       }
-    } else {
+    } else {h
 
     }
   });

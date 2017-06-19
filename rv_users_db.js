@@ -24,6 +24,14 @@ RVUsersDB.prototype.login = function(user_name, password, callback) {
   //    else
   //        404 NOT_FOUND ユーザ名だけを返す。
 
+//   c.query('SELECT * FROM users WHERE id = ? AND name = ?',
+//         [ 1337, 'Frylock' ],
+//         function(err, rows) {
+//   if (err)
+//     throw err;
+//   console.dir(rows);
+// });
+
   console.log('users.login called!');
   var queryUser = 'SELECT * FROM returnvisitor_db.users WHERE user_name = "' + user_name + '" AND password = "' + password + '";';
   console.log(queryUser);
